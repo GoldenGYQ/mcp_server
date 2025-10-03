@@ -19,17 +19,21 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Virtual environments
 venv/
 env/
 ENV/
+env.bak/
+venv.bak/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
@@ -39,6 +43,5 @@ Thumbs.db
 test_save/
 *.log
 
-# Temporary files
-*.tmp
-*.temp
+# MCP specific
+.mcp/

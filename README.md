@@ -1,123 +1,107 @@
 # MCP Servers Collection
 
-这是一个包含多个MCP (Model Context Protocol) 服务器的集合，为AI助手提供各种实用功能。
+这是一个MCP (Model Context Protocol) 服务器集合，包含多个实用的工具服务器。
 
-## 📦 包含的MCP服务器
+## 🚀 包含的服务器
 
-### 1. 论文参考文献管理器 (thesis_reference_manager.py)
-- **功能**: 搜索arXiv论文、管理参考文献、分析LaTeX引用
-- **工具**:
+### 1. **thesis-reference-manager** - 论文参考文献管理工具
+- **功能**：搜索arXiv论文、保存搜索结果、分析LaTeX引用
+- **文件**：`thesis_reference_manager.py`
+- **工具**：
   - `search_papers_arxiv`: 在arXiv上搜索论文
   - `get_paper_details`: 获取论文详细信息
   - `save_search_results`: 保存搜索结果到本地
-  - `analyze_citations`: 分析LaTeX文件中的引用
+  - `analyze_citations`: 分析LaTeX引用
   - `clean_unused_references`: 清理未使用的参考文献
   - `convert_citations_to_superscript`: 转换引用格式
 
-### 2. 文档图片标签器 (docx_image_tagger.py)
-- **功能**: 从Word文档中提取图片并生成智能标签
-- **工具**:
-  - `extract_docx_images`: 提取docx文件中的图片
-  - `extract_docx_text`: 提取docx文件中的文本
-  - `extract_docx_tables`: 提取docx文件中的表格
-  - `extract_zip_assets`: 从zip文件中提取资源
-  - `tag_exported_images`: 为图片生成智能标签
+### 2. **docx-image-tagger** - DOCX图片标签工具
+- **功能**：从DOCX文件中提取图片并生成标签
+- **文件**：`docx_image_tagger.py`
 
-### 3. 本地图片分析器 (local_image_analyzer.py)
-- **功能**: 分析本地图片并生成描述
-- **工具**:
-  - `analyze_single_image`: 分析单个图片
-  - `batch_analyze_images`: 批量分析图片
-  - `generate_smart_titles`: 生成智能标题
+### 3. **local-image-analyzer** - 本地图片分析工具
+- **功能**：分析本地图片并生成智能标题
+- **文件**：`local_image_analyzer.py`
 
-### 4. Hello World服务器 (helloworld.py)
-- **功能**: 简单的测试服务器
-- **工具**:
-  - `helloworld`: 返回问候信息
+### 4. **helloworld** - 简单示例服务器
+- **功能**：MCP服务器基础示例
+- **文件**：`helloworld.py`
 
-## 🛠️ 安装和配置
+## 📦 安装和配置
 
-### 1. 克隆仓库
+### 1. **环境要求**
 ```bash
-git clone https://github.com/GoldenYQ/mcp-servers.git
-cd mcp-servers
+# 创建conda环境
+conda create -n docx-mcp python=3.9
+conda activate docx-mcp
+
+# 安装依赖
+pip install mcp requests
 ```
 
-### 2. 安装依赖
-```bash
-pip install -r requirements.txt
-```
-
-### 3. 配置MCP客户端
-
-#### 对于Cursor IDE:
-编辑 `~/.cursor/mcp.json` 文件:
+### 2. **配置Cursor**
+在 `~/.cursor/mcp.json` 中添加服务器配置：
 
 ```json
 {
   "mcpServers": {
     "thesis-reference-manager": {
       "command": "python",
-      "args": ["path/to/mcp-servers/thesis_reference_manager.py"],
+      "args": ["path/to/thesis_reference_manager.py"],
       "description": "论文参考文献管理工具"
-    },
-    "docx-image-tagger": {
-      "command": "python", 
-      "args": ["path/to/mcp-servers/docx_image_tagger.py"],
-      "description": "文档图片标签器"
-    },
-    "local-image-analyzer": {
-      "command": "python",
-      "args": ["path/to/mcp-servers/local_image_analyzer.py"],
-      "description": "本地图片分析器"
-    },
-    "hello-server": {
-      "command": "python",
-      "args": ["path/to/mcp-servers/helloworld.py"],
-      "description": "Hello World测试服务器"
     }
   }
 }
 ```
 
-#### 对于其他MCP客户端:
-根据您的MCP客户端文档进行配置。
+## 🎯 使用示例
 
-## 🚀 使用方法
-
-### 论文搜索和保存示例
+### 搜索和保存论文
 ```python
-# 搜索论文
-search_result = await search_papers_arxiv("machine learning", max_results=5)
+# 1. 搜索论文
+results = await search_papers_arxiv("machine learning", max_results=5)
 
-# 保存到本地
-save_result = await save_search_results(
-    results=search_result,
-    save_path="D:/Users/username/Desktop/references"
-)
+# 2. 保存到本地
+await save_search_results(results, "D:/Users/username/Desktop/references")
 ```
 
-### 图片分析示例
+### 分析LaTeX引用
 ```python
-# 分析单个图片
-analysis = await analyze_single_image(
-    image_path="path/to/image.jpg",
-    user_working_dir="D:/Users/username/Desktop"
-)
+# 分析引用
+await analyze_citations("thesis_draft.tex")
+
+# 清理未使用的参考文献
+await clean_unused_references("thesis_draft.tex")
+```
+
+## 🔧 开发
+
+### 运行服务器
+```bash
+# 激活环境
+conda activate docx-mcp
+
+# 运行服务器
+python thesis_reference_manager.py
+```
+
+### 测试服务器
+```bash
+# 测试初始化
+echo '{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "test", "version": "1.0.0"}}}' | python thesis_reference_manager.py
 ```
 
 ## 📁 项目结构
+
 ```
-mcp-servers/
-├── thesis_reference_manager.py    # 论文参考文献管理器
-├── docx_image_tagger.py          # 文档图片标签器
-├── local_image_analyzer.py       # 本地图片分析器
-├── helloworld.py                 # Hello World服务器
-├── requirements.txt              # 依赖包列表
-├── README.md                     # 项目说明
-└── examples/                     # 使用示例
-    ├── search_papers.py
-    └── analyze_images.py
+mcp_servers/
+├── thesis_reference_manager.py    # 论文管理服务器
+├── docx_image_tagger.py          # DOCX图片标签服务器
+├── local_image_analyzer.py       # 图片分析服务器
+├── helloworld.py                 # 示例服务器
+├── readme/                       # 文档目录
+├── test/                         # 测试目录
+└── README.md                     # 项目说明
 ```
 
 ## 🤝 贡献
@@ -128,7 +112,6 @@ mcp-servers/
 
 MIT License
 
-## 🔗 相关链接
+## 🙏 致谢
 
-- [MCP官方文档](https://modelcontextprotocol.io/)
-- [Cursor IDE](https://cursor.sh/)
+感谢MCP协议和Cursor团队提供的支持！
